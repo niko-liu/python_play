@@ -6,7 +6,6 @@ Created on 2017年11月12日
 '''
 import turtle
 
-
 def draw_triangle():
     t = turtle.Turtle()
     s = t.getscreen()
