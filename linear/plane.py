@@ -22,6 +22,19 @@ class Plane(object):
 
         self.set_basepoint()
 
+    def __eq__(self, other):
+        eq_constant_term = False
+        if self.constant_term == other.constant_term:
+            eq_constant_term = True
+
+        eq_coordinates = True
+        for x, y in zip(self.normal_vector.coordinates, other.normal_vector.coordinates):
+            if x != y:
+                eq_coordinates = False
+                break
+
+        return eq_coordinates & eq_constant_term
+
     def set_basepoint(self):
         try:
             n = self.normal_vector
@@ -113,6 +126,7 @@ class Plane(object):
                 return False
         else:
             return False
+
 
 class MyDecimal(Decimal):
     def is_near_zero(self, eps=1e-10):
