@@ -1,7 +1,7 @@
 # encoding: utf-8
 
-from plane import Plane
-from vector import Vector
+from linear.plane import Plane
+from nkpy2.vector import Vector
 
 
 p1 = Plane(Vector([-0.142, 3.806, 0.728]), -3.46)

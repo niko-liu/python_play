@@ -1,7 +1,7 @@
 # encoding: utf-8
 
-from line import Line
-from vector import Vector
+from linear.line import Line
+from nkpy2.vector import Vector
 
 
 l1 = Line(normal_vector=Vector([4.046, 2.836]), constant_term=1.21)

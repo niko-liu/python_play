@@ -2,7 +2,7 @@
 
 from decimal import Decimal, getcontext
 import math
-from vector import Vector
+from nkpy2.vector import Vector
 
 # getcontext().prec = 3  # 用来设定小数点精度
 
