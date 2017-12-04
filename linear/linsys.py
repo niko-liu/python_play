@@ -81,85 +81,42 @@ class LinearSystem(object):
         ret += '\n'.join(temp)
         return ret
 
+    def compute_triangular_form(self):
+        system = deepcopy(self)
+        for i in range(len(system.planes)):
+            print("===================")
+            for p2 in system.planes:
+                print(p2)
+            print("===================")
+            dimension = system.planes[i].normal_vector.dimension
+            coord1 = system.planes[i].normal_vector.coordinates
+            for j in range(i+1, len(system.planes)):
+                dimension2 = system.planes[j].normal_vector.dimension
+                coord2 = system.planes[j].normal_vector.coordinates
+                if dimension < dimension2:
+                    system.swap_rows(i, j)
+                    break
+                else:
+                    count_zero_1 = 0
+                    count_zero_2 = 0
+                    for k in range(dimension):
+                        if coord1[k] == 0:
+                            count_zero_1 += 1
+                        if coord2[k] == 0:
+                            count_zero_2 += 1
+                    if count_zero_1 > count_zero_2:
+                        system.swap_rows(i, j)
+                        break
+                print("===================")
+                for p2 in system.planes:
+                    print(p2)
+                print("===================")
+        print("\n")
+        for p in system.planes:
+            print(p)
+        return system.planes
+
 
 class MyDecimal(Decimal):
     def is_near_zero(self, eps=1e-10):
         return abs(self) < eps
-
-
-p0 = Plane(normal_vector=Vector(['1', '1', '1']), constant_term='1')
-p1 = Plane(normal_vector=Vector(['0', '1', '0']), constant_term='2')
-p2 = Plane(normal_vector=Vector(['1', '1', '-1']), constant_term='3')
-p3 = Plane(normal_vector=Vector(['1', '0', '-2']), constant_term='2')
-
-s = LinearSystem([p0, p1, p2, p3])
-
-print(s.indices_of_first_nonzero_terms_in_each_row())
-print('{},{},{},{}'.format(s[0], s[1], s[2], s[3]))
-print(len(s))
-print(s)
-
-s[0] = p1
-print(s)
-
-print(MyDecimal('1e-9').is_near_zero())
-print(MyDecimal('1e-11').is_near_zero())
-
-s = LinearSystem([p0, p1, p2, p3])
-s.swap_rows(0, 1)
-if not (s[0] == p1 and s[1] == p0 and s[2] == p2 and s[3] == p3):
-    print('test case 1 failed')
-
-s.swap_rows(1, 3)
-if not (s[0] == p1 and s[1] == p3 and s[2] == p2 and s[3] == p0):
-    print('test case 2 failed')
-
-s.swap_rows(3, 1)
-if not (s[0] == p1 and s[1] == p0 and s[2] == p2 and s[3] == p3):
-    print('test case 3 failed')
-
-s.multiply_coefficient_and_row(1, 0)
-if not (s[0] == p1 and s[1] == p0 and s[2] == p2 and s[3] == p3):
-    print('test case 4 failed')
-
-s.multiply_coefficient_and_row(-1, 2)
-print("test5 s2=", s[2])
-if not (s[0] == p1 and
-        s[1] == p0 and
-        s[2] == Plane(normal_vector=Vector(['-1', '-1', '1']), constant_term='-3') and
-        s[3] == p3):
-    print('test case 5 failed\n')
-
-s.multiply_coefficient_and_row(10, 1)
-print("test6 s1", s[1])
-print("test6 s2=", s[2])
-if not (s[0] == p1 and
-        s[1] == Plane(normal_vector=Vector(['10', '10', '10']), constant_term='10') and
-        s[2] == Plane(normal_vector=Vector(['-1', '-1', '1']), constant_term='-3') and
-        s[3] == p3):
-    print('test case 6 failed\n')
-
-s.add_multiple_times_row_to_row(0, 0, 1)
-print("test7 s1", s[1])
-print("test7 s2=", s[2])
-if not (s[0] == p1 and
-        s[1] == Plane(normal_vector=Vector(['10', '10', '10']), constant_term='10') and
-        s[2] == Plane(normal_vector=Vector(['-1', '-1', '1']), constant_term='-3') and
-        s[3] == p3):
-    print('test case 7 failed\n')
-
-s.add_multiple_times_row_to_row(1, 0, 1)
-print("test8 s1=", s[1], "\ns2=", s[2])
-if not (s[0] == p1 and
-        s[1] == Plane(normal_vector=Vector(['10', '11', '10']), constant_term='12') and
-        s[2] == Plane(normal_vector=Vector(['-1', '-1', '1']), constant_term='-3') and
-        s[3] == p3):
-    print('test case 8 failed\n')
-
-s.add_multiple_times_row_to_row(-1, 1, 0)
-print("test9 s0=", s[0], "\ns1=", s[1], "\ns2=", s[2])
-if not (s[0] == Plane(normal_vector=Vector(['-10', '-10', '-10']), constant_term='-10') and
-        s[1] == Plane(normal_vector=Vector(['10', '11', '10']), constant_term='12') and
-        s[2] == Plane(normal_vector=Vector(['-1', '-1', '1']), constant_term='-3') and
-        s[3] == p3):
-    print('test case 9 failed\n')
