@@ -86,11 +86,6 @@ class LinearSystem(object):
         # self.order_equations(system)
         system.planes = self.gaussian_elimination(system)
         self.order_equations(system)
-        print("===============")
-        for p_p in system.planes:
-            print(p_p)
-        print("===============")
-
         return system.planes
 
     @staticmethod
@@ -98,7 +93,7 @@ class LinearSystem(object):
         for i in range(len(system.planes)):
             dimension = system.planes[i].normal_vector.dimension
             coord1 = system.planes[i].normal_vector.coordinates
-            for j in range(i+1, len(system.planes)):
+            for j in range(i + 1, len(system.planes)):
                 dimension2 = system.planes[j].normal_vector.dimension
                 coord2 = system.planes[j].normal_vector.coordinates
                 if dimension < dimension2:
@@ -130,7 +125,7 @@ class LinearSystem(object):
 
         for i in range(plen):
             plane = system.planes[i]
-            for j in range(i+1, plen):
+            for j in range(i + 1, plen):
                 plane2 = system.planes[j]
                 if plane.normal_vector.coordinates[i] == 0:
                     break
@@ -140,6 +135,42 @@ class LinearSystem(object):
                 plane2.constant_term = plane2.constant_term - (plane.constant_term * alpha)
                 system.planes[j] = plane2
         return system.planes
+
+    @staticmethod
+    def cal_result(planes):
+        try:
+            res = {}
+            for p in planes[::-1]:
+                ct = p.constant_term
+                mag = p.normal_vector.mag()
+                if mag == 0 and ct == 0:
+                    continue;
+                if mag == 0 and ct != 0:
+                    print("system no solution!")
+                    break
+                coordinates = p.normal_vector.coordinates
+                dimension = p.normal_vector.dimension
+                for i in range(len(coordinates)):
+                    if coordinates[i] == 0:
+                        continue
+                    if (dimension - 1) == i:
+                        tmp = ct / coordinates[i]
+                        key = "x_" + str(i+1)
+                        res[key] = str(round(tmp, 3))
+                    else:
+                        for j in range(i + 1, len(coordinates)):
+                            if "x_" + str(j+1) not in res:
+                                print("infinity solutions!!!")
+                                break
+                            ct -= Decimal(res["x_" + str(j + 1)]) * coordinates[j]
+                        tmp = ct / coordinates[i]
+                        key = "x_" + str(i+1)
+                        res[key] = str(round(tmp, 3))
+                        break
+            return res
+        except Exception as e:
+            print(e)
+            raise e
 
 
 class MyDecimal(Decimal):
