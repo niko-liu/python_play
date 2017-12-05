@@ -83,11 +83,19 @@ class LinearSystem(object):
 
     def compute_triangular_form(self):
         system = deepcopy(self)
+        # self.order_equations(system)
+        system.planes = self.gaussian_elimination(system)
+        self.order_equations(system)
+        print("===============")
+        for p_p in system.planes:
+            print(p_p)
+        print("===============")
+
+        return system.planes
+
+    @staticmethod
+    def order_equations(system):
         for i in range(len(system.planes)):
-            print("===================")
-            for p2 in system.planes:
-                print(p2)
-            print("===================")
             dimension = system.planes[i].normal_vector.dimension
             coord1 = system.planes[i].normal_vector.coordinates
             for j in range(i+1, len(system.planes)):
@@ -107,13 +115,30 @@ class LinearSystem(object):
                     if count_zero_1 > count_zero_2:
                         system.swap_rows(i, j)
                         break
-                print("===================")
-                for p2 in system.planes:
-                    print(p2)
-                print("===================")
-        print("\n")
-        for p in system.planes:
-            print(p)
+        return system.planes
+
+    @staticmethod
+    def gaussian_elimination(system):
+        plen = len(system.planes)
+        x_nonzero_idx = 0
+        for i in range(plen):
+            if system.planes[i].normal_vector.coordinates[0] != 0:
+                x_nonzero_idx = i
+                break
+        if x_nonzero_idx != 0:
+            system.swap_rows(0, x_nonzero_idx)
+
+        for i in range(plen):
+            plane = system.planes[i]
+            for j in range(i+1, plen):
+                plane2 = system.planes[j]
+                if plane.normal_vector.coordinates[i] == 0:
+                    break
+                grammer = plane2.normal_vector.coordinates[i]
+                alpha = grammer / plane.normal_vector.coordinates[i]
+                plane2.normal_vector = plane2.normal_vector.__sub__(plane.normal_vector.__mul__(alpha))
+                plane2.constant_term = plane2.constant_term - (plane.constant_term * alpha)
+                system.planes[j] = plane2
         return system.planes
 
 
