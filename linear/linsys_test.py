@@ -53,13 +53,13 @@ from nkpy2.vector import Vector
 #     print('test case 4 failed')
 # print(s.cal_result(t))
 
-p1 = Plane(normal_vector=Vector(['5.862', '1.178', '-10.366']), constant_term='-8.15')
-p2 = Plane(normal_vector=Vector(['-2.931', '-0.589', '5.183']), constant_term='-4.075')
-s = LinearSystem([p1, p2])
-t = s.compute_triangular_form()
-for t_t in t:
-    print(t_t)
-print(s.cal_result(t))
+# p1 = Plane(normal_vector=Vector(['5.862', '1.178', '-10.366']), constant_term='-8.15')
+# p2 = Plane(normal_vector=Vector(['-2.931', '-0.589', '5.183']), constant_term='-4.075')
+# s = LinearSystem([p1, p2])
+# t = s.compute_triangular_form()
+# for t_t in t:
+#     print(t_t)
+# print(s.cal_result(t))
 
 print("\n")
 

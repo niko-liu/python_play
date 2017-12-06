@@ -3,7 +3,7 @@
 from math import sqrt, acos, pi
 from decimal import getcontext, Decimal
 
-getcontext().prec = 30
+getcontext().prec = 5
 
 
 class Vector(object):

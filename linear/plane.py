@@ -2,7 +2,7 @@ from decimal import Decimal, getcontext
 
 from nkpy2.vector import Vector
 
-getcontext().prec = 30
+getcontext().prec = 5
 
 
 class Plane(object):

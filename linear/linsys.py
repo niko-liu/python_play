@@ -4,7 +4,7 @@ from copy import deepcopy
 from nkpy2.vector import Vector
 from linear.plane import Plane
 
-getcontext().prec = 30
+getcontext().prec = 5
 
 
 class LinearSystem(object):
@@ -142,31 +142,37 @@ class LinearSystem(object):
             res = {}
             for p in planes[::-1]:
                 ct = p.constant_term
-                mag = p.normal_vector.mag()
-                if mag == 0 and ct == 0:
+                ct_compare = round(ct, 3)
+                mag = round(p.normal_vector.mag(), 3)
+                if mag == 0 and ct_compare == 0:
                     continue;
-                if mag == 0 and ct != 0:
+                if mag == 0 and ct_compare != 0:
                     print("system no solution!")
                     break
                 coordinates = p.normal_vector.coordinates
                 dimension = p.normal_vector.dimension
+                infinity = False
                 for i in range(len(coordinates)):
                     if coordinates[i] == 0:
                         continue
                     if (dimension - 1) == i:
                         tmp = ct / coordinates[i]
                         key = "x_" + str(i+1)
-                        res[key] = str(round(tmp, 3))
+                        res[key] = str(tmp)
                     else:
                         for j in range(i + 1, len(coordinates)):
                             if "x_" + str(j+1) not in res:
                                 print("infinity solutions!!!")
+                                infinity = True
                                 break
                             ct -= Decimal(res["x_" + str(j + 1)]) * coordinates[j]
-                        tmp = ct / coordinates[i]
-                        key = "x_" + str(i+1)
-                        res[key] = str(round(tmp, 3))
+                        if not infinity:
+                            tmp = ct / coordinates[i]
+                            key = "x_" + str(i+1)
+                            res[key] = str(tmp)
                         break
+                if infinity:
+                    break
             return res
         except Exception as e:
             print(e)
