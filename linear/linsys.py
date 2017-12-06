@@ -1,10 +1,12 @@
 from decimal import Decimal, getcontext
+import decimal
 from copy import deepcopy
 
 from nkpy2.vector import Vector
 from linear.plane import Plane
 
 getcontext().prec = 5
+# getcontext().rounding = decimal.ROUND_UP
 
 
 class LinearSystem(object):

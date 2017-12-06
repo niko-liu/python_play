@@ -130,4 +130,4 @@ class Plane(object):
 
 class MyDecimal(Decimal):
     def is_near_zero(self, eps=1e-10):
-        return abs(self) < eps
+        return abs(round(self, 3)) < eps

@@ -6,6 +6,7 @@ Created on 2017年11月12日
 '''
 import turtle
 
+
 def draw_triangle():
     t = turtle.Turtle()
     s = t.getscreen()
@@ -28,18 +29,18 @@ def draw_triangle():
             break
         else:
             rdraw(t, angle, num, len)
-    t.lt(angle)        
+    t.lt(angle)
     t.fd(len * max)
     t.lt(angle)
     t.fd(len * max)
     t.color("green")
     t.end_fill()
-    
-    
+
     t.lt(angle)
-        
+
     s.exitonclick()
     pass
+
 
 def rdraw(t, angle, num, len):
     t.lt(angle)
@@ -49,13 +50,15 @@ def rdraw(t, angle, num, len):
     t.fd(tlen)
     t.rt(angle)
     t.fd(len)
-    
+
     if num % 2 == 0:
         for i in range(1, num):
             rdraw(t, angle, i, len)
             t.fd(len)
     t.rt(angle)
     t.fd(tlen)
-    t.lt(angle)  
+    t.lt(angle)
     pass
+
+
 draw_triangle()
