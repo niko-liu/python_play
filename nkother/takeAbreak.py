@@ -15,12 +15,12 @@ if __name__ == '__main__':
     while (1) :
         now = time.time()
         if (now - t) >= twoHours :
-            print "两小时时间到，是时候休息一下"
+            print("两小时时间到，是时候休息一下")
             webbrowser.open(url)
             time.sleep(300)
             t = time.time()
         else :
-            print "时间不到两小时"
+            print("时间不到两小时")
             time.sleep(1)
             
     pass
