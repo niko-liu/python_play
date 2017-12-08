@@ -3,6 +3,7 @@
 from linear.line import Line
 from nkpy2.vector import Vector
 from linear.plane import Plane
+from linear.linsys import LinearSystem, MyDecimal
 
 
 l1 = Line(normal_vector=Vector([4.046, 2.836]), constant_term=1.21)
