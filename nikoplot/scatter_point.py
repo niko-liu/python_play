@@ -58,15 +58,18 @@ m, b = calculate_mb(X, Y)
 # 构建直线
 line_Y = vector_mb[0] * X + vector_mb[1]
 
-fig, ax = plt.subplots()
-ax.scatter(X[0:], Y[0:], alpha=0.5)
-ax.set_xlabel(r'X', fontsize=15)
-ax.set_ylabel(r'Y', fontsize=15)
-ax.set_title('points plot') # 构建散点图
+fig, axes = plt.subplots(2)
+axes[0].scatter(X[0:], Y[0:], alpha=0.5)
+axes[0].set_xlabel(r'X', fontsize=15)
+axes[0].set_ylabel(r'Y', fontsize=15)
+axes[0].set_title('points plot') # 构建散点图
 
 # 画一条直线
-ax.add_line(Line2D(X, line_Y, linewidth=1, color='red'))
-ax.grid(True)
+axes[0].add_line(Line2D(X, line_Y, linewidth=1, color='red'))
+axes[0].grid(True)
+
+axes[1].boxplot(line_Y, labels=['Y'])
+axes[1].set_title(r'Y range')
 
 fig.tight_layout()
 plt.show()
